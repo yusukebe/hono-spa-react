@@ -1,30 +1,42 @@
-import pages from '@hono/vite-cloudflare-pages'
-import devServer from '@hono/vite-dev-server'
 import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import devServer from '@hono/vite-dev-server'
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import pages from '@hono/vite-cloudflare-pages'
+import {getPlatformProxy} from 'wrangler'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   if (mode === 'client') {
     return {
-      build: {
-        rollupOptions: {
-          input: './src/client.tsx',
-          output: {
-            entryFileNames: 'static/client.js'
+      plugins: [viteReact(), TanStackRouterVite()],
+      server: {
+        proxy: {
+          '/api': {
+            target: 'http://localhost:3000',
+            changeOrigin: true,
+            rewrite: (path: string) => path.replace(/^\/api/, '/api'),
           }
-        }
-      }
+        },
+      },
     }
   } else {
+    const { env, dispose } = await getPlatformProxy()
     return {
-      ssr: {
-        external: ['react', 'react-dom']
-      },
       plugins: [
-        pages(),
+        pages({
+          entry: ['src/api/index.tsx'],
+        }),
         devServer({
-          entry: 'src/index.tsx'
+          entry: 'src/api/index.tsx',
+          adapter: {
+            env,
+            onServerClose: dispose
+          },
         })
-      ]
+      ],
+      server: {
+        port: 3000,
+      },
     }
   }
 })

@@ -9,3 +9,13 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
+
+.bin/
+.cache/
+.eslintrc.cjs
+.mf/
+.package-lock.json
+.tmp/
+.vite/
+
+src/routeTree.gen.ts

@@ -1,23 +1,40 @@
 {
+  "name": "hono07",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build --mode client && vite build",
-    "preview": "wrangler pages dev dist",
-    "deploy": "$npm_execpath run build && wrangler pages deploy dist"
+    "dev:api": "vite",
+    "dev:client": "vite --mode client",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
+    "build": "tsc -b && vite -m client build && vite build",
+    "postbuild": "cp _routes.json dist/_routes.json",
+    "preview": "wrangler pages dev dist/",
+    "deploy": "wrangler pages deploy dist/",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "hono": "^4.0.7",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@tanstack/react-router": "^1.40.0",
+    "hono": "^4.4.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240208.0",
-    "@hono/vite-cloudflare-pages": "^0.2.4",
-    "@hono/vite-dev-server": "^0.8.0",
-    "@types/react": "^18.2.60",
-    "@types/react-dom": "^18.2.19",
-    "vite": "^5.0.12",
-    "wrangler": "^3.25.0"
+    "@hono/vite-cloudflare-pages": "^0.4.1",
+    "@hono/vite-dev-server": "^0.12.2",
+    "@tanstack/router-devtools": "^1.40.0",
+    "@tanstack/router-plugin": "^1.39.13",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1",
+    "wrangler": "^3.61.0"
   }
 }
