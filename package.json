@@ -6,15 +6,17 @@
   "scripts": {
     "dev:api": "vite",
     "dev:client": "vite --mode client",
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
-    "build": "tsc -b && vite -m client build && vite build",
-    "postbuild": "cp _routes.json dist/_routes.json",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:api\"",
+    "build:api": "vite build",
+    "build:client": "vite --mode client build",
+    "build": "npm run build:api && npm run build:client",
     "preview": "wrangler pages dev dist/",
     "deploy": "wrangler pages deploy dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.40.0",
+    "@tanstack/start": "^1.40.1",
     "hono": "^4.4.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

@@ -9,6 +9,14 @@ export default defineConfig(async ({ mode }) => {
   if (mode === 'client') {
     return {
       plugins: [viteReact(), TanStackRouterVite()],
+      build: {
+        rollupOptions: {
+          input: './src/client.tsx',
+          output: {
+            entryFileNames: 'static/client.js'
+          }
+        }
+      },
       server: {
         proxy: {
           '/api': {
@@ -24,10 +32,10 @@ export default defineConfig(async ({ mode }) => {
     return {
       plugins: [
         pages({
-          entry: ['src/api/index.tsx'],
+          entry: ['src/ssr.tsx'],
         }),
         devServer({
-          entry: 'src/api/index.tsx',
+          entry: 'src/ssr.tsx',
           adapter: {
             env,
             onServerClose: dispose
