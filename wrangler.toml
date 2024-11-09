@@ -1,5 +1,6 @@
 name = "hono-spa-react"
-pages_build_output_dir = "./dist"
+compatibility_date = "2024-09-19"
+assets = { directory = "./dist/" }
 
 [vars]
 MY_VAR = "hello"
