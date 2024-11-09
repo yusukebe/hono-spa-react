@@ -21,7 +21,9 @@ export default defineConfig(({ mode }) => {
         external: ['react', 'react-dom']
       },
       plugins: [
-        build(),
+        build({
+          outputDir: 'server-build'
+        }),
         devServer({
           adapter,
           entry: 'src/index.tsx'

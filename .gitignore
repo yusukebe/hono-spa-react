@@ -3,6 +3,8 @@ dist
 .wrangler
 .dev.vars
 
+server-build
+
 # Change them to your taste:
 package-lock.json
 yarn.lock

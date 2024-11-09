@@ -3,8 +3,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --mode client && vite build",
-    "preview": "wrangler dev dist/index.js",
-    "deploy": "$npm_execpath run build && wrangler deploy dist/index.js"
+    "preview": "wrangler dev server-build/index.js",
+    "deploy": "$npm_execpath run build && wrangler deploy server-build/index.js"
   },
   "dependencies": {
     "hono": "^4.6.9",
