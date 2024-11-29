@@ -1,10 +1,10 @@
-import { createRoot } from 'react-dom/client'
-import { useState } from 'react'
+import { useState } from 'hono/jsx'
+import { render } from 'hono/jsx/dom'
 
 function App() {
   return (
     <>
-      <h1>Hello, Hono with React!</h1>
+      <h1>Hello, Hono!</h1>
       <h2>Example of useState()</h2>
       <Counter />
       <h2>Example of API fetch()</h2>
@@ -43,5 +43,4 @@ const ClockButton = () => {
 }
 
 const domNode = document.getElementById('root')!
-const root = createRoot(domNode)
-root.render(<App />)
+render(<App />, domNode)

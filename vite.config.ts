@@ -17,9 +17,6 @@ export default defineConfig(({ mode }) => {
     }
   } else {
     return {
-      ssr: {
-        external: ['react', 'react-dom']
-      },
       plugins: [
         build({
           outputDir: 'server-build'
