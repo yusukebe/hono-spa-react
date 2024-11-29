@@ -1,38 +1,24 @@
+import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
+import { z } from 'zod'
+import { renderer } from './renderer'
 
-type Env = {
-  Bindings: {
-    MY_VAR: string
-  }
-}
+const app = new Hono()
+app.use(renderer)
 
-const app = new Hono<Env>()
-
-app.get('/api/clock', (c) => {
-  return c.json({
-    var: c.env.MY_VAR, // Cloudflare Bindings
-    time: new Date().toLocaleTimeString()
-  })
+app.get('/', (c) => {
+  return c.render(<div id="root"></div>)
 })
 
-app.get('*', (c) => {
-  return c.html(
-    <html>
-      <head>
-        <meta charSet="utf-8" />
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <link rel="stylesheet" href="/static/simple.min.css" />
-        {import.meta.env.PROD ? (
-          <script type="module" src="/static/client.js"></script>
-        ) : (
-          <script type="module" src="/src/client.tsx"></script>
-        )}
-      </head>
-      <body>
-        <div id="root"></div>
-      </body>
-    </html>
-  )
+const schema = z.object({
+  name: z.string()
 })
+
+const apiRoutes = app.post('/api', zValidator('form', schema), (c) => {
+  const { name } = c.req.valid('form')
+  return c.json({ name: name + ' from server' })
+})
+
+export type ApiRoutes = typeof apiRoutes
 
 export default app

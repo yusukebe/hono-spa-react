@@ -7,7 +7,9 @@
     "deploy": "$npm_execpath run build && wrangler deploy server-build/index.js"
   },
   "dependencies": {
-    "hono": "^4.6.12"
+    "@hono/zod-validator": "^0.4.1",
+    "hono": "^4.6.12",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
